@@ -52,7 +52,7 @@ export class Basic {
     // })
     // 是否自动旋转
     this.controls.autoRotate = true;
-    this.controls.autoRotateSpeed = 5;
+    this.controls.autoRotateSpeed = 2;
     this.controls.enabled = true;
     // 使动画循环使用时阻尼或自转 意思是否有惯性
     this.controls.enableDamping = true;

@@ -11,29 +11,27 @@ import {
   Scene,
   ShaderMaterial,
   WebGLRenderer,
-} from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+} from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import * as _ from "lodash";
-import { Pane } from "tweakpane";
+import * as _ from 'lodash';
+import { Pane } from 'tweakpane';
 
 // interfaces
-import { IWord } from "../interfaces/IWord";
+import { IWord } from '@/interfaces/IWord';
 
-import { Basic } from "./Basic";
-import Sizes from "../Utils/Sizes";
-import { Resources } from "./Resources";
-import { Helper } from "./Helper";
+import { Basic } from '@/world/Basic';
+import Sizes from '@/utils/Sizes';
+import { Resources } from '@/world/Resources';
+import { Helper } from '@/world/Helper';
 
 // shader
-import boxVertex from "../../shaders/box/vertex.vs";
-import boxFragment from "../../shaders/box/fragment.fs";
-import { EventEmitter } from "pietile-eventemitter";
+import boxVertex from '@/shaders/box/vertex.vs';
+import boxFragment from '@/shaders/box/fragment.fs';
+import { EventEmitter } from 'pietile-eventemitter';
 
 // interface
-import { IEvents } from "../interfaces/IEvents";
+import { IEvents } from '@/interfaces/IEvents';
 export default class World {
   public basic: Basic;
   public scene: Scene;
@@ -64,13 +62,13 @@ export default class World {
     this.sizes = new Sizes(this);
     this.clock = new Clock();
     this.debug = new Pane({
-      title: "🎉 mingo 🎉",
+      title: '🎉 mingo 🎉',
       expanded: true,
     });
     this.initialize();
 
     this.resources = new Resources(() => {
-      console.log("资源加载完成", this.resources);
+      console.log('资源加载完成', this.resources);
       this.createBox(); // 写你的逻辑吧 hxd
       this.createLight();
 
@@ -82,15 +80,11 @@ export default class World {
    * 初始化场景
    */
   public initialize() {
-    this.scene.background = new Color("#000");
+    this.scene.background = new Color('#000');
     this.camera.position.set(5, 5, 5);
-    this.emitter.on("resize", () => {
-      this.renderer.setSize(
-        Number(this.sizes.viewport.width),
-        Number(this.sizes.viewport.height)
-      );
-      this.camera.aspect =
-        Number(this.sizes.viewport.width) / Number(this.sizes.viewport.height);
+    this.emitter.on('resize', () => {
+      this.renderer.setSize(Number(this.sizes.viewport.width), Number(this.sizes.viewport.height));
+      this.camera.aspect = Number(this.sizes.viewport.width) / Number(this.sizes.viewport.height);
       this.camera.updateProjectionMatrix();
     });
   }
@@ -98,25 +92,7 @@ export default class World {
    * 创建box
    */
   public createBox() {
-    const geometry = new BoxGeometry(1, 1, 1);
-    const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/draco/");
-    loader.setDRACOLoader(dracoLoader);
-    console.log(loader);
-    loader.load(
-      "./lib/Demo.glb",
-      (gltf) => {
-        console.log(gltf);
-        // this.scene.add(gltf.scene);
-      },
-      function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-      },
-      function (error) {
-        console.error("An error happened", error);
-      }
-    );
+    const geometry = new BoxGeometry(2, 2, 2);
     if (this.useShader) {
       this.material = new ShaderMaterial({
         uniforms: {
@@ -130,7 +106,7 @@ export default class World {
     } else {
       this.material = new MeshBasicMaterial({
         // color: 0x00ff00,
-        map: this.resources.textures["earth"],
+        map: this.resources.textures['earth'],
       });
     }
 
@@ -141,11 +117,9 @@ export default class World {
       cubeY: cube.position.y,
     };
     this.controls.update();
-    this.debug
-      .addInput(PARAMS, "cubeY", { min: -5, max: 5, step: 0.00001 })
-      .on("change", (e) => {
-        cube.position.y = e.value;
-      });
+    this.debug.addInput(PARAMS, 'cubeY', { min: -5, max: 5, step: 0.00001 }).on('change', (e) => {
+      cube.position.y = e.value;
+    });
   }
   public createLight() {
     const ambientLight = new AmbientLight(0x404040, 1); // soft white light
@@ -155,13 +129,9 @@ export default class World {
     pointLight.position.set(500, 800, 150);
     this.scene.add(pointLight);
 
-    // this.helper.addLight(pointLight)
-    // this.helper.addAxes()
+    // this.helper.addLight(pointLight);
+    // this.helper.addAxes();
   }
-  // public createHelper() {
-  //   let a = new Helper()
-  // }
-  /**
 
   /**
    * 渲染函数
@@ -170,8 +140,6 @@ export default class World {
     requestAnimationFrame(this.render.bind(this));
     this.renderer.render(this.scene, this.camera);
     this.controls && this.controls.update();
-    this.useShader &&
-      ((this.material as ShaderMaterial).uniforms.uTime.value =
-        this.clock.getElapsedTime());
+    this.useShader && ((this.material as ShaderMaterial).uniforms.uTime.value = this.clock.getElapsedTime());
   }
 }

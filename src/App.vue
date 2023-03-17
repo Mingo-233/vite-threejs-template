@@ -1,19 +1,17 @@
-<script setup lang="ts">
-import { onMounted } from "vue";
-import World from "./ts/world/Word";
-onMounted(() => {
-  const dom = document.querySelector("#threejs-canvas") as HTMLElement;
-  new World({
-    dom,
-  });
-});
-// threejs-canvas
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div>
-    <div id="threejs-canvas"></div>
-  </div>
+  <!-- <router-view></router-view> -->
 </template>
 
-<style scoped></style>
+<style>
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+</style>
