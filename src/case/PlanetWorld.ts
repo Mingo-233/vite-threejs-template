@@ -78,7 +78,6 @@ export default class World {
       this.render();
     });
   }
-
   /**
    * 初始化场景
    */
@@ -116,7 +115,6 @@ export default class World {
     );
 
     this.controls.target = new Vector3(0, 0, 0);
-
     this.controls.update();
   }
   public createLight() {
@@ -127,7 +125,7 @@ export default class World {
     pointLight.position.set(500, 800, 150);
     this.scene.add(pointLight);
 
-    // this.helper.addLight(pointLight)
+    // this.helper.addLight(pointLight);
     // this.helper.addAxes();
   }
 
