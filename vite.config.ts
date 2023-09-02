@@ -13,16 +13,14 @@ export default defineConfig({
     glsl(),
     {
       name: 'html-transform',
-      // 为什么不使用transformIndexHtml钩子，是因为这个钩子执行时拿到的html结构已经是transform之后的产物了
-      buildStart() {
-        const rawHtml = fs.readFileSync('./index.html', 'utf-8');
-        let reuslt = rawHtml.replace(
+      transformIndexHtml(html) {
+        let reuslt = html.replace(
           /<script type="module" id="transformTag"(.*?)<\/script>/,
           `<script type="module" id="transformTag" src="${
             nodeType === 'single' ? '/src/scripts/buildEntry.ts' : '/src/main.ts'
           }"></script>`,
         );
-        fs.writeFileSync('./index.html', reuslt);
+        return reuslt;
       },
     },
   ],

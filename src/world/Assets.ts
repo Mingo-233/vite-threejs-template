@@ -16,20 +16,10 @@ interface IResources {
 const resources: IResources = {
   textures: [
     {
-      chinese_name: "科技地球",
-      name: "earth",
-      path: "./images/textures/earth.png",
+      chinese_name: '科技地球',
+      name: 'earth',
+      path: './images/textures/earth.png',
     },
-    // {
-    //   chinese_name: '海洋',
-    //   name: 'ocean',
-    //   path: './images/textures/ocean.png'
-    // },
-    // {
-    //   chinese_name: '房间',
-    //   name: 'room',
-    //   path: './images/textures/room.png'
-    // }
   ],
 };
 export { resources };
